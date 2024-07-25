@@ -1,14 +1,20 @@
 name: attendance
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.4 <4.0.0'
+  sdk: ">=3.2.4 <4.0.0"
 
 dependencies:
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.6
+  flutter_map: ^6.1.0
+  flutter_map_location_marker: ^8.1.0
+  geolocator: ^11.1.0
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:
