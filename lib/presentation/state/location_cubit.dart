@@ -1,8 +1,7 @@
+import 'package:attendance/core/service_location.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-
-import '../../core/geolocator_manager.dart';
+import 'package:location/location.dart';
 
 abstract class LocationState extends Equatable {
   const LocationState();
@@ -16,15 +15,15 @@ class LocationInitial extends LocationState {}
 class LocationLoading extends LocationState {}
 
 class LocationSuccess extends LocationState {
-  final Position position;
-  const LocationSuccess({required this.position});
+  final LocationData locationData;
+  const LocationSuccess({required this.locationData});
 
   @override
-  List<Object> get props => [position];
+  List<Object> get props => [locationData];
 
   @override
   String toString() {
-    return 'LocationSuccess{position: $position}';
+    return 'LocationSuccess{locationData: $locationData}';
   }
 }
 
@@ -46,8 +45,8 @@ class LocationCubit extends Cubit<LocationState> {
   void currentLocation() async {
     emit(LocationLoading());
     try {
-      final position = await GeolocatorManager.determinePosition();
-      emit(LocationSuccess(position: position));
+      final locationData = await ServiceLocation.currentLocation();
+      emit(LocationSuccess(locationData: locationData));
     } catch (e) {
       emit(LocationFailure(msg: e.toString()));
     }

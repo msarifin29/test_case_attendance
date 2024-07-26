@@ -1,5 +1,7 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
+
 import 'package:geolocator/geolocator.dart';
 
 class GeolocatorManager {
@@ -42,5 +44,13 @@ class GeolocatorManager {
     /// When we reach here, permissions are granted and we can
     /// continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
+  }
+
+  Stream<Position> positionStream() {
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100,
+    );
+    return Geolocator.getPositionStream(locationSettings: locationSettings);
   }
 }

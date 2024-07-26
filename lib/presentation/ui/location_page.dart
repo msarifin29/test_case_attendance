@@ -48,8 +48,6 @@ class _MapViewState extends State<MapView> {
           initialZoom: 1,
           minZoom: 0,
           maxZoom: 19,
-          // Stop aligning the location marker to the center of the map widget
-          // if user interacted with the map.
           onPositionChanged: (MapPosition camera, bool hasGesture) {
             if (hasGesture && _alignPositionOnUpdate != AlignOnUpdate.never) {
               setState(
@@ -58,7 +56,6 @@ class _MapViewState extends State<MapView> {
             }
           },
         ),
-        // ignore: sort_child_properties_last
         children: [
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -73,16 +70,12 @@ class _MapViewState extends State<MapView> {
           Align(
             alignment: Alignment.bottomRight,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20),
               child: FloatingActionButton(
                 onPressed: () {
-                  // Align the location marker to the center of the map widget
-                  // on location update until user interact with the map.
                   setState(
                     () => _alignPositionOnUpdate = AlignOnUpdate.always,
                   );
-                  // Align the location marker to the center of the map widget
-                  // and zoom the map to level 18.
                   _alignPositionStreamController.add(18);
                 },
                 child: const Icon(
