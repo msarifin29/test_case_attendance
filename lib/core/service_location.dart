@@ -16,12 +16,15 @@ class ServiceLocation {
     PermissionStatus permission;
     serviceEnabled = await Location().serviceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      serviceEnabled = await Location().requestService();
+      if (!serviceEnabled) {
+        return Future.error('Location services are disabled.');
+      }
     }
     permission = await Location().hasPermission();
     if (permission == PermissionStatus.denied) {
       permission = await Location().requestPermission();
-      if (permission == PermissionStatus.denied) {
+      if (permission != PermissionStatus.granted) {
         return Future.error('Location permissions are denied');
       }
     }

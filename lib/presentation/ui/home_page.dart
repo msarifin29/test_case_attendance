@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:attendance/core/geolocator_manager.dart';
 import 'package:attendance/presentation/state/create_master_location/create_master_location_bloc.dart';
 import 'package:attendance/presentation/state/location_cubit.dart';
 import 'package:attendance/presentation/ui/attendance_page.dart';
@@ -24,7 +25,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    context.read<LocationCubit>().currentLocation();
+    GeolocatorManager.determinePosition().then((value) {
+      context.read<LocationCubit>().currentLocation();
+    });
     super.initState();
   }
 
@@ -71,8 +74,8 @@ class _HomePageState extends State<HomePage> {
                 },
               );
             } else if (state is LocationSuccess) {
-              lat = state.locationData.latitude ?? 0;
-              long = state.locationData.longitude ?? 0;
+              lat = state.locationData.latitude;
+              long = state.locationData.longitude;
               context
                   .read<CreateMasterLocationBloc>()
                   .add(OnCreated(lat: lat, long: long));
